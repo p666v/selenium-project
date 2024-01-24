@@ -1,4 +1,4 @@
-package ru.buttonone;
+package ru.itsjava;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,7 +12,7 @@ public class ConfProperties {
 
     public String getProperty(String key) {
         try {
-            fileInputStream = new FileInputStream("src/test/resources/conf.properties");
+            fileInputStream = new FileInputStream("src/main/resources/conf.properties");
             properties = new Properties();
             properties.load(fileInputStream);
         } catch (IOException e) {
