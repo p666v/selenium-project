@@ -6,6 +6,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertEquals;
@@ -17,7 +18,7 @@ public class ChromeTest {
     @BeforeClass
     public void setupClass() {
         driver = WebDriverManager.getInstance(confProperties.getProperty("browserName")).create();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().window().maximize();
         System.out.println("The profile setup process is completed");
     }
