@@ -18,6 +18,7 @@ public class ConfProperties {
         }
 
         return properties.getProperty(key);
+
     }
 
 }

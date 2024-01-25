@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import static org.testng.Assert.assertEquals;
 
 public class ChromeTest {
+
     private WebDriver driver;
     private final ConfProperties confProperties = new ConfProperties();
 
