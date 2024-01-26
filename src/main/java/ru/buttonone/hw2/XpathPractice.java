@@ -15,29 +15,28 @@ public class XpathPractice {
         driver.get(confProperties.getProperty("test_site"));
 
 //        Кнопка категории вверху
-        WebElement element1 = driver
+        WebElement categoryTopButton = driver
                 .findElement(By.xpath("//a[@class = 'pulldown_desktop' and text() = 'Категории']"));
-        System.out.println("element1.isDisplayed() = " + element1.isDisplayed());
+        System.out.println("categoryTopButton.isDisplayed() = " + categoryTopButton.isDisplayed());
 
 
 //        Надпись категории внизу
-        WebElement element2 = driver
+        WebElement categoryLabelBottom = driver
                 .findElement(By.xpath("//div[@class = 'title' and text() = 'Категории']"));
-        System.out.println("element2.isDisplayed() = " + element2.isDisplayed());
+        System.out.println("categoryLabelBottom.isDisplayed() = " + categoryLabelBottom.isDisplayed());
 
 
 //        Нажать на кнопку Приключенческая игра
         driver.switchTo().newWindow(WindowType.TAB);
         driver.get(confProperties.getProperty("test_site"));
-        WebElement element3 = driver
+        WebElement labelCategoryBottom = driver
                 .findElement(By.xpath("//a[@class = 'pulldown_desktop' and text() = 'Категории']"));
-        element3.click();
+        labelCategoryBottom.click();
 
-        WebElement element4 = driver
+        WebElement adventureGameButton = driver
                 .findElement(By.xpath("//a[@class = 'popup_menu_item' and contains(text(), 'Приключенческая игра')]"));
-        System.out.println("element4.isDisplayed() = " + element4.isDisplayed());
-        element4.click();
-
+        System.out.println("adventureGameButton.isDisplayed() = " + adventureGameButton.isDisplayed());
+        adventureGameButton.click();
 
     }
 }

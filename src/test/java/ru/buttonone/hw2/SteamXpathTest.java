@@ -34,36 +34,35 @@ public class SteamXpathTest {
 
     @Test
     public void buttonTestIsDisplayed() {
-        WebElement element = driver
+        WebElement supportButton = driver
                 .findElement(By.xpath("//a[@class='menuitem ' and contains(text(), 'ПОДДЕРЖКА')]"));
-        System.out.println("buttonTestIsDisplayed = " + element.isDisplayed());
+        System.out.println("buttonTestIsDisplayed = " + supportButton.isDisplayed());
 
-        assertTrue(element.isDisplayed(), "true");
+        assertTrue(supportButton.isDisplayed(), "true");
 
     }
 
 
     @Test
     public void buttonTestGetTagName() {
-        WebElement element1 = driver
+        WebElement storeButton = driver
                 .findElement(By.xpath("//a[@class='pulldown_desktop' and contains(text(), 'Магазин')]"));
-        element1.click();
+        storeButton.click();
 
-        WebElement element2 = driver
+        WebElement communityRecommendationsButton = driver
                 .findElement(By.xpath("//a[@class='popup_menu_item' and contains(text(), 'Рекомендации сообщества')]"));
-        System.out.println("buttonTestGetTagName = " + element2.isDisplayed());
 
-        assertEquals(element2.getTagName(), "a");
+        assertEquals(communityRecommendationsButton.getTagName(), "a");
 
     }
 
     @Test
     public void buttonTestGetAccessibleName() {
-        WebElement element = driver
+        WebElement salesLeadersButton = driver
                 .findElement(By.xpath("//a[@class='gutter_item' and contains(text(), 'Лидеры продаж')]"));
-        System.out.println("element.isDisplayed() = " + element.isDisplayed());
+        System.out.println("element.isDisplayed() = " + salesLeadersButton.isDisplayed());
 
-        assertEquals(element.getAccessibleName(), "Лидеры продаж");
+        assertEquals(salesLeadersButton.getAccessibleName(), "Лидеры продаж");
 
     }
 
