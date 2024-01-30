@@ -38,7 +38,7 @@ public class SteamXpathTest {
                 .findElement(By.xpath("//a[@class='menuitem ' and contains(text(), 'ПОДДЕРЖКА')]"));
 
         assertTrue(supportButton.isDisplayed()
-                , "Проверка отображения кнопки supportButton, кнопка не отображается, ожидаемое значение 'true', фактическое значение 'false'");
+                , "Кнопка 'ПОДДЕРЖКА' не отображается");
 
     }
 
@@ -52,7 +52,7 @@ public class SteamXpathTest {
                 .findElement(By.xpath("//a[@class='popup_menu_item' and contains(text(), 'Рекомендации сообщества')]"));
 
         assertEquals(communityRecommendationsButton.getTagName(), "a"
-                , "Проверка наименования тега кнопки buttonTestGetTagName, наименование не соответствует тех. документации, ожидаемое значение 'a', фактическое значение = " + communityRecommendationsButton.getTagName());
+                , "Наименование тега кнопки 'Рекомендации сообщества' не соответствует тех. документации, ожидаемое значение 'a', фактическое значение = " + communityRecommendationsButton.getTagName());
 
     }
 
@@ -62,7 +62,7 @@ public class SteamXpathTest {
                 .findElement(By.xpath("//a[@class='gutter_item' and contains(text(), 'Лидеры продаж')]"));
 
         assertEquals(salesLeadersButton.getAccessibleName(), "Лидеры продаж"
-                , "Проверка наименования кнопки salesLeadersButton, название не соответствует тех. документации, ожидаемое значение 'Лидеры продаж', фактическое значение = " + salesLeadersButton.getAccessibleName());
+                , "Название кнопки 'Лидеры продаж'не соответствует тех. документации, ожидаемое значение 'Лидеры продаж', фактическое значение = " + salesLeadersButton.getAccessibleName());
 
     }
 
