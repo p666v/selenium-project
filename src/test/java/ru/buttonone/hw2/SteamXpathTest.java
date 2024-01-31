@@ -47,8 +47,8 @@ public class SteamXpathTest {
         WebElement communityRecommendationsButton = driver
                 .findElement(By.xpath("//a[@class='popup_menu_item' and contains(text(), 'Рекомендации сообщества')]"));
         String actualData = communityRecommendationsButton.getTagName();
-        assertEquals(actualData, "a",
-                String.format("Тег кнопки 'Рекомендации сообщества' не соответствует тех. документации, ожидаемое значение 'a', фактическое = " + actualData));
+        assertEquals(actualData, "a1",
+                String.format("Тег кнопки 'Рекомендации сообщества' не соответствует тех. документации, ожидаемое значение 'a', фактическое = %s", actualData));
     }
 
     @Test
