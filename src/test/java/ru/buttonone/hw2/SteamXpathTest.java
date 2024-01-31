@@ -24,7 +24,6 @@ public class SteamXpathTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().window().maximize();
         driver.get(confProperties.getProperty("test_site"));
-        System.out.println("The profile setup process is completed");
     }
 
     @AfterClass
@@ -36,12 +35,9 @@ public class SteamXpathTest {
     public void buttonTestIsDisplayed() {
         WebElement supportButton = driver
                 .findElement(By.xpath("//a[@class='menuitem ' and contains(text(), 'ПОДДЕРЖКА')]"));
-
         assertTrue(supportButton.isDisplayed()
                 , "Кнопка 'ПОДДЕРЖКА' не отображается");
-
     }
-
 
     @Test
     public void buttonTestGetTagName() {
@@ -50,21 +46,17 @@ public class SteamXpathTest {
         storeButton.click();
         WebElement communityRecommendationsButton = driver
                 .findElement(By.xpath("//a[@class='popup_menu_item' and contains(text(), 'Рекомендации сообщества')]"));
-
-        assertEquals(communityRecommendationsButton.getTagName(), "a"
-                , "Наименование тега кнопки 'Рекомендации сообщества' не соответствует тех. документации, ожидаемое значение 'a', фактическое значение = " + communityRecommendationsButton.getTagName());
-
+        String actualData = communityRecommendationsButton.getTagName();
+        assertEquals(actualData, "a",
+                String.format("Тег кнопки 'Рекомендации сообщества' не соответствует тех. документации, ожидаемое значение 'a', фактическое = " + actualData));
     }
 
     @Test
     public void buttonTestGetAccessibleName() {
         WebElement salesLeadersButton = driver
                 .findElement(By.xpath("//a[@class='gutter_item' and contains(text(), 'Лидеры продаж')]"));
-
-        assertEquals(salesLeadersButton.getAccessibleName(), "Лидеры продаж"
-                , "Название кнопки 'Лидеры продаж'не соответствует тех. документации, ожидаемое значение 'Лидеры продаж', фактическое значение = " + salesLeadersButton.getAccessibleName());
-
+        String actualData = salesLeadersButton.getAccessibleName();
+        assertEquals(actualData, "Лидеры продаж",
+                String.format("Название кнопки отображается не верно, ожидаемое значение 'Лидеры продаж', фактическое = %s", actualData));
     }
-
-
 }
