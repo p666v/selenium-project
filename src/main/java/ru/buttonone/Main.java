@@ -1,22 +1,44 @@
 package ru.buttonone;
 
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.devtools.v85.indexeddb.model.Key;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class Main {
     public static void main(String[] args) {
 
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
-//
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("start-maximized");
 
-
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("start-maximized");
 
         WebDriver driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().window().maximize();
         driver.get("https://store.steampowered.com/?l=russian");
         System.out.println("driver.getTitle() = " + driver.getTitle());
+
+
+        Actions actions = new Actions(driver);
+//        actions.pause(Duration.ofSeconds(5));
+        actions.scrollByAmount(0, 2250).perform();
+//
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement element = webDriverWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//img[@alt = 'TEKKEN 8']/ancestor::a[contains(@class,'app_impression_tracked')]//div[@class = 'discount_final_price']"))));
+//        WebElement element = driver.findElement(By.xpath("//img[@alt = 'TEKKEN 8']/ancestor::a[contains(@class,'app_impression_tracked')]//div[@class = 'discount_final_price']"));
+        System.out.println("element.getText() = " + element.getText());
+
+//        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+//        jsExecutor.executeScript("window.scrollBy(0, " + 2250 + ");");
+//        WebElement element = driver.findElement(By.xpath("//img[@alt = 'TEKKEN 8']/ancestor::a[contains(@class,'app_impression_tracked')]//div[@class = 'discount_final_price']"));
+//
+//        System.out.println("element.getText() = " + element.getText());
 
 
 //        driver.close();
@@ -31,14 +53,6 @@ public class Main {
 //        webElement1.click();
 
 
-
-
-
-
-
-
-
-
-//        driver.quit();
+        driver.quit();
     }
 }
