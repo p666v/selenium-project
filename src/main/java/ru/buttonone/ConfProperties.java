@@ -16,8 +16,6 @@ public class ConfProperties {
         } catch (IOException e) {
             System.out.println("Файл properties отсутствует");
         }
-
         return properties.getProperty(key);
     }
-
 }
