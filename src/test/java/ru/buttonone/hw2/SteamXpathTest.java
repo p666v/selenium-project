@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import ru.buttonone.ConfProperties;
+import ru.buttonone.hw1.ConfProperties;
 
 import java.time.Duration;
 

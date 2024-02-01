@@ -1,4 +1,4 @@
-package ru.buttonone;
+package ru.buttonone.hw1;
 
 import java.io.FileInputStream;
 import java.io.IOException;
