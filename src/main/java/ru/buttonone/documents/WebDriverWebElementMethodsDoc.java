@@ -1,6 +1,6 @@
 package ru.buttonone.documents;
 
-public class WebDriverWebElementMethods {
+public class WebDriverWebElementMethodsDoc {
     public static void main(String[] args) {
         /**
          *

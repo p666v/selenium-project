@@ -1,6 +1,6 @@
 package ru.buttonone.documents;
 
-public class ChromeOptionsMethods {
+public class ChromeOptionsMethodsDoc {
     public static void main(String[] args) {
         /**
          *  МЕТОДЫ

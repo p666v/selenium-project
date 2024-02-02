@@ -1,6 +1,6 @@
 package ru.buttonone.documents;
 
-public class XPath {
+public class XPathDoc {
     public static void main(String[] args) {
         /**
          *     ФУНКЦИИ XPATH:
