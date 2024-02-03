@@ -12,7 +12,7 @@ public class WebDriverWebElementMethodsDoc {
          *
          *  WebElement element = driver.findElement(By.id("language_pulldown"));
          *
-         *  driver.findElement(By.id());              Поиск элемента по идентификатору
+         *  driver.findElement(By.id());               Поиск элемента по идентификатору
          *  driver.findElement(By.tagName());          Поиск элемента по имени тега
          *  driver.findElement(By.name());             Поиск элемента по имени
          *  driver.findElement(By.className());        Поиск элемента по имени класса
