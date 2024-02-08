@@ -2,34 +2,34 @@ package ru.buttonone.hw4;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import ru.buttonone.utilities.ConfProperties;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class ScenarioPracticeTest {
     private WebDriver driver;
     private final ConfProperties confProperties = new ConfProperties();
-    private final SoftAssert softAssertion = new SoftAssert();
     private WebDriverWait webDriverWait;
 
     @BeforeClass
     public void setupClass() {
         driver = WebDriverManager.getInstance(confProperties.getProperty("browserName")).create();
         driver.manage().window().maximize();
-        driver.get(confProperties.getProperty("test_site"));
     }
 
     @AfterClass
@@ -38,47 +38,53 @@ public class ScenarioPracticeTest {
     }
 
     @Test
-    public void checkingCorrectnessSortingByReleaseDateGame() throws InterruptedException {
+    public void checkingCorrectnessSortingByReleaseDateGame() {
         driver.get(confProperties.getProperty("test_site"));
         webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        WebElement inputBox = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("store_nav_search_term")));
-        assertTrue(inputBox.isDisplayed(), "Поле ввода не найдено");
-        inputBox.sendKeys("Warhammer 40000");
-        inputBox.submit();
+        WebElement searchField = webDriverWait.until(visibilityOfElementLocated(By.id("store_nav_search_term")));
+        searchField.sendKeys("Warhammer 40000");
+        searchField.submit();
+        assertTrue(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//div[@class='searchtag tag_dynamic']"))).isDisplayed(),
+                "Поле ввода не активно");
 
-        WebElement searchTag = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='searchtag_tmpl' and @class='searchtag tag_dynamic']")));
-        String searchTagText = searchTag.getText();
-        softAssertion.assertTrue(searchTag.isDisplayed(), "Лейбл результатов поиска отсутствует");
-        softAssertion.assertEquals(searchTagText, "\"Warhammer 40000\"", String.format("Результат поиска указан некорректно, факт = %s", searchTagText));
-        softAssertion.assertAll();
+        WebElement sortingParametersDropDown = webDriverWait.until(visibilityOfElementLocated(By.id("sort_by_trigger")));
+        sortingParametersDropDown.click();
+        assertTrue(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//a[@class='trigger activetrigger']"))).isDisplayed(),
+                "Выпадающее меню сортировки не активно");
 
-        WebElement sortingParameters = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("sort_by_trigger")));
-        assertTrue(sortingParameters.isDisplayed(), "Блок \"Сортировать по\" не найден");
-        sortingParameters.click();
+        WebElement releaseDateItemSortingDropDown = webDriverWait.until(visibilityOfElementLocated(By.xpath("//a[@class='inactive_selection' and text() = 'дате выхода']")));
+        releaseDateItemSortingDropDown.click();
+        assertEquals(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//a[@id='sort_by_trigger' and text() = 'дате выхода']"))).getText(),
+                "дате выхода", "Пункт сортировки некорректный");
 
-        WebElement releaseDate = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='inactive_selection' and text() = 'дате выхода']")));
-        assertTrue(releaseDate.isDisplayed(), "Блок \"дате выхода\" не найден");
-        releaseDate.click();
+        WebElement freeGamesCheckBox = webDriverWait.until(visibilityOfElementLocated(By.xpath("//span[@data-loc='Скрыть бесплатные игры']")));
+        freeGamesCheckBox.click();
+        assertTrue(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//span[contains(@class,'checked') and @data-loc='Скрыть бесплатные игры']"))).isDisplayed(),
+                "В блоке Цена пункт \"Скрыть бесплатные игры\" не активен");
 
-        WebElement freeGames = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(@class, 'tab_filter_control') and @data-loc='Скрыть бесплатные игры']")));
-        assertTrue(freeGames.isDisplayed(), "Блок \"Скрыть бесплатные игры\" не найден");
-        freeGames.click();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
-        WebElement queryResult = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='search_results_filtered_warning_persistent']/div[contains(text(), 'Результатов по вашему запросу')]")));
-        assertTrue(queryResult.isDisplayed(), "Надпись \"Результатов по вашему запросу\" не найдена");
-
-        Thread.sleep(5000);
-        List<WebElement> allGamesSorted = webDriverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@id='search_resultsRows']/descendant::a")));
+        List<WebElement> allGamesSorted = webDriverWait.until(visibilityOfAllElementsLocatedBy(By.xpath("//div[@id='search_resultsRows']/descendant::a")));
+        String nameGame = "";
         for (WebElement game : allGamesSorted) {
-            WebElement currentGame = game.findElement(By.xpath(".//span[@class = 'title']"));
-            if (currentGame.getText().equals("Warhammer 40,000: Rogue Trader - Season Pass")) {
-                String gameLink = game.getAttribute("href");
-                driver.navigate().to(gameLink);
+            if (game.findElement(By.xpath(".//span[@class = 'title']")).getText()
+                    .equals("Warhammer 40,000: Rogue Trader - Season Pass")) {
+                nameGame = game.getText();
+                game.click();
                 break;
             }
         }
-        assertEquals(driver.getTitle(), "Warhammer 40,000: Rogue Trader - Season Pass в Steam", String.format("Заголовок некорректный, факт = %s", driver.getTitle()));
+        assertTrue(nameGame.contains(webDriverWait.until(visibilityOfElementLocated(By.id("appHubAppName"))).getText()),
+                "Игра, отрывшаяся по клику, не соответствует выбранной игре из списка");
     }
 
     @Test
@@ -86,40 +92,70 @@ public class ScenarioPracticeTest {
         driver.get(confProperties.getProperty("test_site"));
         webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
         Actions actions = new Actions(driver);
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 
-        WebElement categoriesButton = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span//a[@class = 'pulldown_desktop' and text() = 'Категории']")));
-        assertTrue(categoriesButton.isDisplayed(), "Пункт меню \"Категории\" не найден");
-        categoriesButton.click();
+        WebElement categoriesDropdown = webDriverWait
+                .until(visibilityOfElementLocated(By.xpath("//div[@id='genre_tab']//a[@class = 'pulldown_desktop']")));
+        categoriesDropdown.click();
+        assertTrue(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//div[@id='genre_flyout' and contains(@style, 'block')]"))).isDisplayed(),
+                "Выпадающее меню Категорий отсутствует");
 
-        WebElement categoryButtonMysteriesDetectives = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class = 'popup_menu_item' and text() = 'Тайны и детективы']")));
-        assertTrue(categoryButtonMysteriesDetectives.isDisplayed(), "Пункт меню \"Тайны и детективы\" не найден");
+        WebElement categoryButtonMysteriesDetectives = webDriverWait
+                .until(visibilityOfElementLocated(By.xpath("//a[@class = 'popup_menu_item' and text() = 'Тайны и детективы']")));
         categoryButtonMysteriesDetectives.click();
+        assertTrue(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//div[@class='Panel Focusable']//div[text()='Тайны и детективы']"))).isDisplayed(),
+                "Переход на страницу выбранной категории не произошёл");
 
-        actions.scrollByAmount(0, 2200).perform();
-        WebElement salesLeadersButton = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'FlavorLabel_Dhg57') and text() = 'Лидеры продаж']")));
-        assertTrue(salesLeadersButton.isDisplayed(), "Пункт меню \"Лидеры продаж\" не найден");
+        actions.moveToElement(webDriverWait
+                .until(visibilityOfElementLocated(By.xpath("//div[contains(@class, 'salesection_ShowContentsContainer')]//button[text()='Показать больше']")))).perform();
+        WebElement salesLeadersButton = webDriverWait
+                .until(visibilityOfElementLocated(By.xpath("//div[contains(@class, 'FlavorLabel') and text() = 'Лидеры продаж']")));
         salesLeadersButton.click();
+        assertTrue(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//div[contains(@class, 'SelectedFlavor') and text() = 'Лидеры продаж']"))).isDisplayed(),
+                "Кнопка сортировки по продажам не активна");
 
-        WebElement filterButtonShowMoreGenres = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='facetedbrowse_FacetValueShowMore_230Th']")));
-        assertTrue(filterButtonShowMoreGenres.isDisplayed(), "Пункт \"Показать больше\" не найден");
-        filterButtonShowMoreGenres.click();
+        WebElement showMoreGenresButton = webDriverWait
+                .until(visibilityOfElementLocated(By.xpath("//div[contains(@class, 'FacetValueShowMore')]")));
+        showMoreGenresButton.click();
+        assertTrue(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//div[contains(@class, 'FacetValue')]/a[text()='Гонки']"))).isDisplayed(),
+                "Кнопка \"Показать Больше\" не активна");
 
-        WebElement strategyGenreButton = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'facetedbrowse_FacetValueName') and text()='Стратегия']")));
-        assertTrue(strategyGenreButton.isDisplayed(), "Пункт фильтра \"Стратегия\" не найден");
+        WebElement strategyGenreButton = webDriverWait
+                .until(visibilityOfElementLocated(By.xpath("//a[contains(@class,'FacetValueName') and text()='Стратегия']")));
         strategyGenreButton.click();
+        assertTrue(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//span[text()='Стратегия']"))).isDisplayed(),
+                "Кнопка выбора жанра не активна");
 
-        WebElement filterItemPlayers = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'facetedbrowse_FacetTitle') and text()='Игроки']")));
-        assertTrue(filterItemPlayers.isDisplayed(), "Пункт фильтра \"Игроки\" не найден");
-        filterItemPlayers.click();
+        WebElement playersListBox = webDriverWait
+                .until(visibilityOfElementLocated(By.xpath("//div[contains(@class,'FacetTitle') and text()='Игроки']")));
+        playersListBox.click();
+        assertTrue(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//a[contains(@class,'FacetValueName') and text()='Для нескольких игроков']"))).isDisplayed(),
+                "Кнопка выбора количества игроков не активна");
 
-        WebElement filterItemMultiplePlayers = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'facetedbrowse_FacetValueName') and text()='Для нескольких игроков']")));
-        assertTrue(filterItemMultiplePlayers.isDisplayed(), "Пункт фильтра Игроки \"Для нескольких игроков\" не найден");
-        filterItemMultiplePlayers.click();
+        WebElement multiplePlayersButton = webDriverWait
+                .until(visibilityOfElementLocated(By.xpath("//a[contains(@class,'FacetValueName') and text()='Для нескольких игроков']")));
+        multiplePlayersButton.click();
+        assertTrue(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//span[text()='Для нескольких игроков']"))).isDisplayed(),
+                "Подпункт выбора количества игроков не активен");
 
-        WebElement firstGameFilteredList = webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'facetedbrowse_FacetedBrowseItems')]/div[1]//div[contains(@class, 'salepreviewwidgets_TitleCtn')]/a")));
-        assertTrue(firstGameFilteredList.isDisplayed(), "Список игр не найден");
-        System.out.println("firstGameFilteredList.getText() = " + firstGameFilteredList.getText());
-        driver.get(firstGameFilteredList.getAttribute("href"));
-        assertEquals(driver.getTitle(),"West Hunt в Steam", String.format("Заголовок некорректный, факт = %s", driver.getTitle()));
+        WebElement firstGameFilteredList = webDriverWait
+                .until(visibilityOfElementLocated(By.xpath("//div[contains(@class, 'FacetedBrowseItems')]/div[1]//div[contains(@class, 'StoreSaleWidgetTitle')]")));
+        String nameGame = firstGameFilteredList.getText();
+        jsExecutor.executeScript("arguments[0].click()", firstGameFilteredList);
+        Set<String> windowHandles = driver.getWindowHandles();
+        for (String idWindow : windowHandles) {
+            if (!driver.getWindowHandle().equals(idWindow)) {
+                driver.switchTo().window(idWindow);
+            }
+        }
+        assertTrue(nameGame.equalsIgnoreCase(webDriverWait.until(visibilityOfElementLocated(By.id("appHubAppName"))).getText()),
+                "Игра, отрывшаяся по клику, не соответствует выбранной игре из списка");
     }
 }
