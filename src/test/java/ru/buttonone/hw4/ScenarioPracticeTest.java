@@ -55,11 +55,11 @@ public class ScenarioPracticeTest {
                         .until(visibilityOfElementLocated(By.xpath("//a[@class='trigger activetrigger']"))).isDisplayed(),
                 "Выпадающее меню сортировки не активно");
 
-        WebElement releaseDateItemSortingDropDown = webDriverWait.until(visibilityOfElementLocated(By.xpath("//a[@class='inactive_selection' and text() = 'дате выхода']")));
+        WebElement releaseDateItemSortingDropDown = webDriverWait.until(visibilityOfElementLocated(By.id("Released_DESC")));
         releaseDateItemSortingDropDown.click();
-        assertEquals(webDriverWait
-                        .until(visibilityOfElementLocated(By.xpath("//a[@id='sort_by_trigger' and text() = 'дате выхода']"))).getText(),
-                "дате выхода", "Пункт сортировки некорректный");
+        assertTrue(webDriverWait
+                        .until(visibilityOfElementLocated(By.xpath("//a[@id='sort_by_trigger' and text() = 'дате выхода']"))).isDisplayed(),
+                "Пункт выбора параметра сортировки не активный");
 
         WebElement freeGamesCheckBox = webDriverWait.until(visibilityOfElementLocated(By.xpath("//span[@data-loc='Скрыть бесплатные игры']")));
         freeGamesCheckBox.click();
@@ -83,8 +83,9 @@ public class ScenarioPracticeTest {
                 break;
             }
         }
-        assertTrue(nameGame.contains(webDriverWait.until(visibilityOfElementLocated(By.id("appHubAppName"))).getText()),
-                "Игра, отрывшаяся по клику, не соответствует выбранной игре из списка");
+        WebElement gameOpenByClick = webDriverWait.until(visibilityOfElementLocated(By.id("appHubAppName")));
+        assertTrue(nameGame.contains(gameOpenByClick.getText()),
+                String.format("Игра, отрывшаяся по клику, не соответствует выбранной игре из списка. Ожидаем = %s, факт = %s", nameGame, gameOpenByClick));
     }
 
     @Test
@@ -155,7 +156,8 @@ public class ScenarioPracticeTest {
                 driver.switchTo().window(idWindow);
             }
         }
-        assertTrue(nameGame.equalsIgnoreCase(webDriverWait.until(visibilityOfElementLocated(By.id("appHubAppName"))).getText()),
-                "Игра, отрывшаяся по клику, не соответствует выбранной игре из списка");
+        WebElement gameOpenByClick = webDriverWait.until(visibilityOfElementLocated(By.id("appHubAppName")));
+        assertTrue(nameGame.equalsIgnoreCase(gameOpenByClick.getText()),
+                String.format("Игра, отрывшаяся по клику, не соответствует выбранной игре из списка. Ожидаем = %s, факт = %s", nameGame, gameOpenByClick));
     }
 }
