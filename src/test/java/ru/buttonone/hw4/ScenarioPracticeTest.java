@@ -18,7 +18,6 @@ import java.util.Set;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class ScenarioPracticeTest {
@@ -76,15 +75,15 @@ public class ScenarioPracticeTest {
         List<WebElement> allGamesSorted = webDriverWait.until(visibilityOfAllElementsLocatedBy(By.xpath("//div[@id='search_resultsRows']/descendant::a")));
         String nameGame = "";
         for (WebElement game : allGamesSorted) {
-            if (game.findElement(By.xpath(".//span[@class = 'title']")).getText()
-                    .equals("Warhammer 40,000: Rogue Trader - Season Pass")) {
-                nameGame = game.getText();
+            WebElement currentGame = game.findElement(By.xpath(".//span[@class = 'title']"));
+            if (currentGame.getText().equals("Warhammer 40,000: Rogue Trader - Season Pass")) {
+                nameGame = currentGame.getText();
                 game.click();
                 break;
             }
         }
         WebElement gameOpenByClick = webDriverWait.until(visibilityOfElementLocated(By.id("appHubAppName")));
-        assertTrue(nameGame.contains(gameOpenByClick.getText()),
+        assertTrue(nameGame.equalsIgnoreCase(gameOpenByClick.getText()),
                 String.format("Игра, отрывшаяся по клику, не соответствует выбранной игре из списка. Ожидаем = %s, факт = %s", nameGame, gameOpenByClick));
     }
 
