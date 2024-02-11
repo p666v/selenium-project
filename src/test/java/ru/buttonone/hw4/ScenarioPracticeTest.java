@@ -18,6 +18,7 @@ import java.util.Set;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class ScenarioPracticeTest {
@@ -56,8 +57,8 @@ public class ScenarioPracticeTest {
 
         WebElement releaseDateItemSortingDropDown = webDriverWait.until(visibilityOfElementLocated(By.id("Released_DESC")));
         releaseDateItemSortingDropDown.click();
-        assertTrue(webDriverWait
-                        .until(visibilityOfElementLocated(By.xpath("//a[@id='sort_by_trigger' and text() = 'дате выхода']"))).isDisplayed(),
+        assertEquals(webDriverWait
+                        .until(visibilityOfElementLocated(By.id("sort_by_trigger"))).getText(), "дате выхода",
                 "Пункт выбора параметра сортировки не активный");
 
         WebElement freeGamesCheckBox = webDriverWait.until(visibilityOfElementLocated(By.xpath("//span[@data-loc='Скрыть бесплатные игры']")));
