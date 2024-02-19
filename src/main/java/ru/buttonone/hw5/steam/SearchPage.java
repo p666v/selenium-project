@@ -57,20 +57,6 @@ public class SearchPage {
         return webDriverWait.until(visibilityOfAllElementsLocatedBy(listGames));
     }
 
-    public String gameFromListGetText(String nameGame) {
-        String currentGameText = "";
-        Optional<String> gameOptional = getListGames().stream()
-                .filter(game -> game.findElement(gameFromList).getText().equals(nameGame))
-                .map(game -> game.findElement(gameFromList).getText()).findAny();
-
-        if (gameOptional.isPresent()) {
-            currentGameText = gameOptional.get();
-        } else {
-            fail("Игра с названием: " + nameGame + " в списке не найдена");
-        }
-        return currentGameText;
-    }
-
     public void gameFromListClick(String nameGame) {
         Optional<WebElement> currentGame = getListGames().stream()
                 .filter(game -> game.findElement(gameFromList).getText().equals(nameGame))

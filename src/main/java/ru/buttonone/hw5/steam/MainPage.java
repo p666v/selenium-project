@@ -2,7 +2,6 @@ package ru.buttonone.hw5.steam;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import ru.buttonone.hw5.utilities.ConfProperties;
 
 import java.time.Duration;
 
@@ -15,12 +14,7 @@ public class MainPage {
     private final By categoriesPullDownActive = By.xpath("//div[@id='genre_flyout' and contains(@style, 'block')]");
     private final By categoryMysteriesDetectivesButton = By
             .xpath("//a[@class = 'popup_menu_item' and text() = 'Тайны и детективы']");
-    private final ConfProperties confProperties = new ConfProperties();
     private final WebDriverWait webDriverWait = new WebDriverWait(DRIVER.getDriver(), Duration.ofSeconds(10));
-
-    public void getToMainPage(String key) {
-        DRIVER.getDriver().get(confProperties.getProperty(key));
-    }
 
     public void enterDataSearchField(String nameGame) {
         webDriverWait.until(visibilityOfElementLocated(searchField)).sendKeys(nameGame);

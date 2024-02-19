@@ -7,6 +7,7 @@ import ru.buttonone.hw5.steam.CategoryPage;
 import ru.buttonone.hw5.steam.GamePage;
 import ru.buttonone.hw5.steam.MainPage;
 import ru.buttonone.hw5.steam.SearchPage;
+import ru.buttonone.hw5.utilities.ConfProperties;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -17,6 +18,7 @@ public class ScenarioPageObjectTest {
     private final SearchPage searchPage = new SearchPage();
     private final GamePage gamePage = new GamePage();
     private final CategoryPage categoryPage = new CategoryPage();
+    private final ConfProperties confProperties = new ConfProperties();
 
     @BeforeClass
     public void setupClass() {
@@ -30,7 +32,7 @@ public class ScenarioPageObjectTest {
 
     @Test
     public void checkingCorrectnessSortingByReleaseDateGame() {
-        mainPage.getToMainPage("test_site");
+        DRIVER.getDriver().get(confProperties.getProperty("test_site"));
         mainPage.enterDataSearchField("Warhammer 40000");
         mainPage.searchFieldClick();
         assertTrue(searchPage.searchTagIsDisplayed(),
@@ -51,16 +53,15 @@ public class ScenarioPageObjectTest {
             throw new RuntimeException(e);
         }
 
-        String currentGame = searchPage.gameFromListGetText("Warhammer 40,000: Rogue Trader - Season Pass");
         searchPage.gameFromListClick("Warhammer 40,000: Rogue Trader - Season Pass");
-        assertTrue(currentGame.equalsIgnoreCase(gamePage.gameAppGetText()),
+        assertEquals(gamePage.gameAppGetText(), "Warhammer 40,000: Rogue Trader - Season Pass",
                 String.format("Игра, отрывшаяся по клику, не соответствует выбранной игре из списка." +
-                        " Ожидаем = %s, факт = %s", currentGame, gamePage.gameAppGetText()));
+                " Ожидаем = Warhammer 40,000: Rogue Trader - Season Pass, факт = %s", gamePage.gameAppGetText()));
     }
 
     @Test
     public void checkingCorrectReflectionProductAccordanceFilterParameters() {
-        mainPage.getToMainPage("test_site");
+        DRIVER.getDriver().get(confProperties.getProperty("test_site"));
         mainPage.categoriesPullDownClick();
         assertTrue(mainPage.categoriesPullDownActiveIsDisplayed(),
                 "Выпадающее меню Категорий отсутствует");

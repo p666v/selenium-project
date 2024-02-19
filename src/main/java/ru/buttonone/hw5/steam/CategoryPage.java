@@ -19,9 +19,9 @@ public class CategoryPage {
     private final By salesLeadersButtonActive = By
             .xpath("//div[text()='Лидеры продаж' and contains(@class, '3HhxiFyD3z9B')]");
     private final By showMoreGenresButton = By
-            .xpath("//div[text()='Основные жанры']/ancestor::div/div[text()='Показать больше']");
+            .xpath("//div[text()='Показать больше']");
     private final By showLessActive = By
-            .xpath("//div[text()='Основные жанры']/ancestor::div/div[text()='Показать меньше']");
+            .xpath("//div[text()='Показать меньше']");
     private final By strategyGenreButton = By
             .xpath("//div[text()='Основные жанры']/ancestor::div/div/a[text()='Стратегия']");
     private final By strategyGenreTagActive = By.xpath("//span[text()='Стратегия']");
