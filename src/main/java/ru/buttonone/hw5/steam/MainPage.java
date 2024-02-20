@@ -6,7 +6,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
-import static ru.buttonone.hw5.utilities.WebDriverSingleton.DRIVER;
+import static ru.buttonone.hw5.utilities.WebDriverSingleton.INSTANCE;
 
 public class MainPage {
     private final By searchField = By.id("store_nav_search_term");
@@ -14,7 +14,7 @@ public class MainPage {
     private final By categoriesPullDownActive = By.xpath("//div[@id='genre_flyout' and contains(@style, 'block')]");
     private final By categoryMysteriesDetectivesButton = By
             .xpath("//a[@class = 'popup_menu_item' and text() = 'Тайны и детективы']");
-    private final WebDriverWait webDriverWait = new WebDriverWait(DRIVER.getDriver(), Duration.ofSeconds(10));
+    private final WebDriverWait webDriverWait = new WebDriverWait(INSTANCE.getDriver(), Duration.ofSeconds(10));
 
     public void enterDataSearchField(String nameGame) {
         webDriverWait.until(visibilityOfElementLocated(searchField)).sendKeys(nameGame);

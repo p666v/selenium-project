@@ -8,11 +8,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
-import static ru.buttonone.hw5.utilities.WebDriverSingleton.DRIVER;
+import static ru.buttonone.hw5.utilities.WebDriverSingleton.INSTANCE;
 
 public class CategoryPage {
-    private final By categoryMysteriesDetectivesButtonActive = By
-            .xpath("//div[@class='Panel Focusable']//div[text()='Тайны и детективы']");
     private final By showMoreButton = By
             .xpath("//div[contains(@class, 'ShowContentsContainer')]/button[text()='Показать больше']");
     private final By salesLeadersButton = By.xpath("//div[text()='Лидеры продаж']");
@@ -20,7 +18,7 @@ public class CategoryPage {
             .xpath("//div[text()='Лидеры продаж' and contains(@class, '3HhxiFyD3z9B')]");
     private final By showMoreGenresButton = By
             .xpath("//div[text()='Показать больше']");
-    private final By showLessActive = By
+    private final By showLessGenresButton = By
             .xpath("//div[text()='Показать меньше']");
     private final By strategyGenreButton = By
             .xpath("//div[text()='Основные жанры']/ancestor::div/div/a[text()='Стратегия']");
@@ -29,15 +27,11 @@ public class CategoryPage {
     private final By multiplePlayersButton = By
             .xpath("//div[text()='Игроки']/../following-sibling::div/a[text()='Для нескольких игроков']");
     private final By multiplePlayersTagActive = By.xpath("//span[text()='Для нескольких игроков']");
-    private final By firstGameFilteredList = By
+    private final By firstGameWithFilterParameters = By
             .xpath("//div[contains(@class, 'NO-IPpXzHDNjw_TLDlIo7')]/div[1]//div[contains(@class, 'StoreSaleWidgetTitle')]");
-    private final WebDriverWait webDriverWait = new WebDriverWait(DRIVER.getDriver(), Duration.ofSeconds(10));
-    private final Actions actions = new Actions(DRIVER.getDriver());
-    private final JavascriptExecutor jsExecutor = (JavascriptExecutor) DRIVER.getDriver();
-
-    public boolean categoryMysteriesDetectivesButtonActiveIsDisplayed() {
-        return webDriverWait.until(visibilityOfElementLocated(categoryMysteriesDetectivesButtonActive)).isDisplayed();
-    }
+    private final WebDriverWait webDriverWait = new WebDriverWait(INSTANCE.getDriver(), Duration.ofSeconds(10));
+    private final Actions actions = new Actions(INSTANCE.getDriver());
+    private final JavascriptExecutor jsExecutor = (JavascriptExecutor) INSTANCE.getDriver();
 
     public void moveToShowMoreButton() {
         actions.moveToElement(webDriverWait.until(visibilityOfElementLocated(showMoreButton))).perform();
@@ -55,8 +49,8 @@ public class CategoryPage {
         webDriverWait.until(visibilityOfElementLocated(showMoreGenresButton)).click();
     }
 
-    public boolean showLessGenresButtonActiveIsDisplayed() {
-        return webDriverWait.until(visibilityOfElementLocated(showLessActive)).isDisplayed();
+    public boolean showLessGenresButtonIsDisplayed() {
+        return webDriverWait.until(visibilityOfElementLocated(showLessGenresButton)).isDisplayed();
     }
 
     public void strategyGenreButtonClick() {
@@ -84,11 +78,11 @@ public class CategoryPage {
     }
 
     public String firstGameFilteredListGetText() {
-        return webDriverWait.until(visibilityOfElementLocated(firstGameFilteredList)).getText();
+        return webDriverWait.until(visibilityOfElementLocated(firstGameWithFilterParameters)).getText();
     }
 
-    public void firstGameFilteredListClick() {
+    public void firstGameWithFilterParametersClick() {
         jsExecutor.executeScript("arguments[0].click()",
-                webDriverWait.until(visibilityOfElementLocated(firstGameFilteredList)));
+                webDriverWait.until(visibilityOfElementLocated(firstGameWithFilterParameters)));
     }
 }

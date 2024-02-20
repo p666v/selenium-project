@@ -6,11 +6,11 @@ import org.openqa.selenium.WebDriver;
 
 @Getter
 public enum WebDriverSingleton {
-    DRIVER;
+    INSTANCE;
     private final WebDriver driver;
 
     WebDriverSingleton() {
         ConfProperties confProperties = new ConfProperties();
-        driver = WebDriverManager.getInstance(confProperties.getProperty("browserName")).create();
+        driver = WebDriverManager.getInstance(confProperties.getProperty("browser-name")).create();
     }
 }
