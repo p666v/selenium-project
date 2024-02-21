@@ -48,6 +48,12 @@ public class SearchPage {
     }
 
     public List<WebElement> getAllGamesWithFilterParameters() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException interruptedException) {
+            System.err.println("Ожидание потока прервано");
+            throw new RuntimeException(interruptedException);
+        }
         return webDriverWait.until(visibilityOfAllElementsLocatedBy(allGames));
     }
 

@@ -49,13 +49,6 @@ public class ScenarioPageObjectTest {
         searchPage.freeGamesCheckBoxClick();
         softAssert.assertTrue(searchPage.freeGamesCheckBoxActiveIsDisplayed(),
                 "В блоке Цена пункт \"Скрыть бесплатные игры\" не активен");
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException interruptedException) {
-            System.err.println("Ожидание потока прервано");
-        }
-
         searchPage.gameCorrespondsToParametersClick(GAME_NAME);
         assertEquals(gamePage.appNameGetText(), GAME_NAME,
                 String.format("Игра, отрывшаяся по клику, не соответствует выбранной игре из списка." +
