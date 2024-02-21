@@ -52,8 +52,8 @@ public class ScenarioPageObjectTest {
 
         try {
             Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        } catch (InterruptedException interruptedException) {
+            System.err.println("Ожидание потока прервано");
         }
 
         searchPage.gameCorrespondsToParametersClick(GAME_NAME);
