@@ -19,57 +19,58 @@ public class CategoryPage {
     private final String multiplePlayersTagActive = "//span[text()='Для нескольких игроков']";
     private final String firstGameWithFilterParameters = "//div[contains(@class, 'NO-IPpXzHDNjw_TLDlIo7')]/" +
             "div[1]//div[contains(@class, 'StoreSaleWidgetTitle')]";
+    private final long secondsOfWaiting = 10;
 
     public void moveToShowMoreButton() {
-        $x(showMoreButton).shouldBe(visible, Duration.ofSeconds(10)).scrollTo();
+        $x(showMoreButton).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).scrollTo();
     }
 
     public void salesLeadersButtonClick() {
-        $x(salesLeadersButton).shouldBe(visible, Duration.ofSeconds(10)).click();
+        $x(salesLeadersButton).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).click();
     }
 
     public boolean salesLeadersButtonActiveIsDisplayed() {
-        return $x(salesLeadersButtonActive).shouldBe(visible, Duration.ofSeconds(10)).isDisplayed();
+        return $x(salesLeadersButtonActive).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).isDisplayed();
     }
 
     public void showMoreGenresButtonClick() {
-        $x(showMoreGenresButton).shouldBe(visible, Duration.ofSeconds(10)).click();
+        $x(showMoreGenresButton).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).click();
     }
 
     public boolean showLessGenresButtonIsDisplayed() {
-        return $x(showLessGenresButton).shouldBe(visible, Duration.ofSeconds(10)).isDisplayed();
+        return $x(showLessGenresButton).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).isDisplayed();
     }
 
     public void strategyGenreButtonClick() {
-        $x(strategyGenreButton).shouldBe(visible, Duration.ofSeconds(10)).click();
+        $x(strategyGenreButton).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).click();
     }
 
     public boolean strategyGenreTagActiveIsDisplayed() {
-        return $x(strategyGenreTagActive).shouldBe(visible, Duration.ofSeconds(10)).isDisplayed();
+        return $x(strategyGenreTagActive).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).isDisplayed();
     }
 
     public void playersListBoxClick() {
-        $x(playersListBox).shouldBe(visible, Duration.ofSeconds(10)).click();
+        $x(playersListBox).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).click();
     }
 
     public boolean multiplePlayersButtonIsDisplayed() {
-        return $x(multiplePlayersButton).shouldBe(visible, Duration.ofSeconds(10)).isDisplayed();
+        return $x(multiplePlayersButton).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).isDisplayed();
     }
 
     public void multiplePlayersButtonClick() {
-        $x(multiplePlayersButton).shouldBe(visible, Duration.ofSeconds(10)).click();
+        $x(multiplePlayersButton).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).click();
     }
 
     public boolean multiplePlayersTagActiveIsDisplayed() {
-        return $x(multiplePlayersTagActive).shouldBe(visible, Duration.ofSeconds(10)).isDisplayed();
+        return $x(multiplePlayersTagActive).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).isDisplayed();
     }
 
     public String firstGameFilteredListGetText() {
-        return $x(firstGameWithFilterParameters).shouldBe(visible, Duration.ofSeconds(10)).getText();
+        return $x(firstGameWithFilterParameters).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).getText();
     }
 
     public void firstGameWithFilterParametersClick() {
         executeJavaScript("arguments[0].click()",
-                $x(firstGameWithFilterParameters).shouldBe(visible, Duration.ofSeconds(10)));
+                $x(firstGameWithFilterParameters).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)));
     }
 }

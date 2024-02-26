@@ -34,7 +34,7 @@ public class ScenarioPageObjectTest {
 
     @AfterClass
     public void quitTest() {
-        getWebDriver().quit();
+        closeWebDriver();
     }
 
     @Test
@@ -85,13 +85,8 @@ public class ScenarioPageObjectTest {
         softAssert.assertTrue(categoryPage.multiplePlayersTagActiveIsDisplayed(),
                 "Пункты меню выбора количества игроков не активны");
         String currentGame = categoryPage.firstGameFilteredListGetText();
-        String idCurrentWindow = getWebDriver().getWindowHandle();
         categoryPage.firstGameWithFilterParametersClick();
-        for (String idWindow : getWebDriver().getWindowHandles()) {
-            if (!idCurrentWindow.equals(idWindow)) {
-                switchTo().window(idWindow);
-            }
-        }
+        switchTo().window(1);
         assertTrue(currentGame.equalsIgnoreCase(gamePage.appNameGetText()),
                 String.format("Игра, отрывшаяся по клику, не соответствует выбранной игре из списка." +
                         " Ожидаем = %s, факт = %s", currentGame, gamePage.appNameGetText()));

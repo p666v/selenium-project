@@ -15,32 +15,33 @@ public class SearchPage {
     private final String freeGamesCheckBox = "//span[@data-loc='Скрыть бесплатные игры']";
     private final String freeGamesCheckBoxActive = "//span[contains(@class,'checked') and @data-loc='Скрыть бесплатные игры']";
     private final String allGames = "//div[@id='search_resultsRows']/a";
+    private final long secondsOfWaiting = 10;
 
     public void sortingParametersDropDownClick() {
-        $x(sortingParametersDropDown).shouldBe(visible, Duration.ofSeconds(10)).click();
+        $x(sortingParametersDropDown).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).click();
     }
 
     public String sortingParametersDropDownGetText() {
-        return $x(sortingParametersDropDown).shouldBe(visible, Duration.ofSeconds(10)).getText();
+        return $x(sortingParametersDropDown).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).getText();
     }
 
     public boolean sortingParametersDropDownActiveIsDisplayed() {
-        return $x(sortingParametersDropDownActive).shouldBe(visible, Duration.ofSeconds(10)).isDisplayed();
+        return $x(sortingParametersDropDownActive).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).isDisplayed();
     }
 
     public void sortingReleaseDateButtonClick() {
-        $x(sortingReleaseDateButton).shouldBe(visible, Duration.ofSeconds(10)).click();
+        $x(sortingReleaseDateButton).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).click();
     }
 
     public void freeGamesCheckBoxClick() {
-        $x(freeGamesCheckBox).shouldBe(visible, Duration.ofSeconds(10)).click();
+        $x(freeGamesCheckBox).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).click();
     }
 
     public boolean freeGamesCheckBoxActiveIsDisplayed() {
-        return $x(freeGamesCheckBoxActive).shouldBe(visible, Duration.ofSeconds(10)).isDisplayed();
+        return $x(freeGamesCheckBoxActive).shouldBe(visible, Duration.ofSeconds(secondsOfWaiting)).isDisplayed();
     }
 
     public void gameCorrespondsToParametersClick(String gameName) {
-        $$x(allGames).shouldBe(sizeGreaterThan(0), Duration.ofSeconds(10)).findBy(text(gameName)).click();
+        $$x(allGames).shouldBe(sizeGreaterThan(0), Duration.ofSeconds(secondsOfWaiting)).findBy(text(gameName)).click();
     }
 }
